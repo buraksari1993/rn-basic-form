@@ -8,6 +8,10 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../App';
+
+type loginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 type Auth = {
   email: string;
@@ -15,7 +19,7 @@ type Auth = {
 };
 
 export const Login: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<loginScreenProp>();
 
   const {
     control,

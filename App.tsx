@@ -2,8 +2,14 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Home, Login} from './src/screens';
+import {Button} from 'react-native';
 
 const Stack = createNativeStackNavigator();
+
+export type RootStackParamList = {
+  Login: undefined;
+  Home: undefined;
+};
 
 const App = () => {
   return (
@@ -17,7 +23,20 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{headerBackVisible: false}}
+          options={({navigation}) => ({
+            headerBackVisible: false,
+            headerRight: () => (
+              <Button
+                title="Logout"
+                onPress={() =>
+                  navigation.reset({
+                    index: 0,
+                    routes: [{name: 'Login'}],
+                  })
+                }
+              />
+            ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>
