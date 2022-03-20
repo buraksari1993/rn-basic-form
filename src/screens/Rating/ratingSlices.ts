@@ -7,11 +7,13 @@ type Rate = {
   desc: string;
 };
 
+const intialState = {
+  rates: [] as Rate[],
+};
+
 const ratingSlices = createSlice({
   name: 'rating',
-  initialState: {
-    rates: [] as Rate[],
-  },
+  initialState: intialState,
   reducers: {
     setRate(state, action) {
       const {userId, rate, desc} = action.payload;
@@ -23,9 +25,10 @@ const ratingSlices = createSlice({
         state.rates.push(action.payload);
       }
     },
+    resetRates: () => intialState,
   },
 });
-export const {setRate} = ratingSlices.actions;
+export const {setRate, resetRates} = ratingSlices.actions;
 export const selectRateByUserId = (state: any, userId: number) =>
   state.rating.rates.find((rate: Rate) => rate.userId === userId);
 

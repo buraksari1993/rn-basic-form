@@ -6,6 +6,7 @@ import {Button} from 'react-native';
 import {Provider} from 'react-redux';
 import {store} from './src/store';
 import {Rating} from './src/screens/Rating/Rating';
+import {resetRates} from './src/screens/Rating/ratingSlices';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,12 +35,13 @@ const App = () => {
               headerRight: () => (
                 <Button
                   title="Çıkış"
-                  onPress={() =>
+                  onPress={() => {
+                    store.dispatch(resetRates());
                     navigation.reset({
                       index: 0,
                       routes: [{name: 'Login'}],
-                    })
-                  }
+                    });
+                  }}
                 />
               ),
             })}
