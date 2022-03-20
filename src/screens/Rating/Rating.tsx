@@ -25,7 +25,7 @@ const schema = yup.object().shape({
     .required('Zorunlu Alan')
     .typeError('Sayısal karakter giriniz')
     .min(1, 'Minimum 1 olmalıdır')
-    .max(10, 'Maximum 10 olmalıdır'),
+    .max(5, 'Maximum 5 olmalıdır'),
   desc: yup
     .string()
     .required('Zorunlu Alan')

@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
     handleSubmit,
     formState: {errors},
   } = useForm<Auth>({
-    defaultValues: {email: 'asd@asd.com', password: 'asd123123'},
+    defaultValues: {email: '', password: ''},
     resolver: yupResolver(schema),
   });
 
