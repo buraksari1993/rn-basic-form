@@ -10,6 +10,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../App';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 type loginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -18,6 +20,17 @@ type Auth = {
   password: string;
 };
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Geçerli bir email giriniz')
+    .required('Zorunlu Alan'),
+  password: yup
+    .string()
+    .min(8, 'Minimum 8 karakter olmalıdır')
+    .required('Zorunlu Alan'),
+});
+
 export const Login: React.FC = () => {
   const navigation = useNavigation<loginScreenProp>();
 
@@ -25,7 +38,10 @@ export const Login: React.FC = () => {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<Auth>({defaultValues: {email: 'asd@asd.com', password: 'asd'}});
+  } = useForm<Auth>({
+    defaultValues: {email: 'asd@asd.com', password: 'asd123123'},
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit: any = handleSubmit(() => {
     navigation.navigate('Users');
@@ -38,10 +54,6 @@ export const Login: React.FC = () => {
       <View style={styles.inputContainer}>
         <Controller
           control={control}
-          rules={{
-            required: true,
-            pattern: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-          }}
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
               placeholder="Email"
@@ -56,14 +68,11 @@ export const Login: React.FC = () => {
         />
 
         {errors.email && (
-          <Text style={styles.errorText}>This is not valid.</Text>
+          <Text style={styles.errorText}>{errors.email?.message}</Text>
         )}
 
         <Controller
           control={control}
-          rules={{
-            required: true,
-          }}
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
               placeholder="Şifre"
@@ -78,7 +87,7 @@ export const Login: React.FC = () => {
           name="password"
         />
         {errors.password && (
-          <Text style={styles.errorText}>This is required.</Text>
+          <Text style={styles.errorText}>{errors.password?.message}</Text>
         )}
       </View>
 
