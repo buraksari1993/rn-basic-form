@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -22,10 +22,21 @@ export const Users: React.FC = () => {
   const navigation = useNavigation<usersScreenProp>();
 
   const {users, loading} = useSelector((state: RootState) => state.users);
+  const {rates} = useSelector((state: RootState) => state.rating);
 
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
+
+  const getRate = useCallback(
+    (userId: number) => {
+      const rate = rates.find(r => r.userId === userId)?.rate;
+      const color = rate === 5 ? '#32a86d' : rate === 1 ? '#f55' : '#eda215';
+
+      return {rate, color};
+    },
+    [rates],
+  );
 
   const handleClick = (item: any) => {
     navigation.navigate('Rating', item);
@@ -42,6 +53,8 @@ export const Users: React.FC = () => {
         contentContainerStyle={styles.list}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({item}) => {
+          const {rate, color} = getRate(item.id);
+
           return (
             <Pressable
               key={item.id}
@@ -50,6 +63,11 @@ export const Users: React.FC = () => {
               <Text style={styles.name}>{item.name}</Text>
               <Text>{item.phone}</Text>
               <Text>{item.email}</Text>
+              {rate && (
+                <View style={[styles.rateView, {backgroundColor: color}]}>
+                  <Text style={styles.rate}>{rate}</Text>
+                </View>
+              )}
             </Pressable>
           );
         }}
@@ -80,6 +98,20 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '500',
+  },
+  rateView: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  rate: {
+    fontWeight: 'bold',
+    color: 'white',
   },
   separator: {
     height: 20,
