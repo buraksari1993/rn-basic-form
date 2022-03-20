@@ -1,4 +1,4 @@
 import {Login} from './Login/Login';
-import {Home} from './Home/Home';
+import {Users} from './Users/Users';
 
-export {Login, Home};
+export {Login, Users};

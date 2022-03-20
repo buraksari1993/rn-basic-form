@@ -25,15 +25,15 @@ export const Login: React.FC = () => {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<Auth>({defaultValues: {email: '', password: ''}});
+  } = useForm<Auth>({defaultValues: {email: 'asd@asd.com', password: 'asd'}});
 
-  const onSubmit = handleSubmit(() => {
-    navigation.navigate('Home');
+  const onSubmit: any = handleSubmit(() => {
+    navigation.navigate('Users');
   });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Log In</Text>
+      <Text style={styles.title}>Giriş Yap</Text>
 
       <View style={styles.inputContainer}>
         <Controller
@@ -82,7 +82,7 @@ export const Login: React.FC = () => {
         )}
       </View>
 
-      <TouchableOpacity onPress={handleSubmit(onSubmit)} style={styles.button}>
+      <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text>Giriş Yap</Text>
       </TouchableOpacity>
     </View>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderRadius: 16,
     paddingVertical: 8,
-    width: '50%',
+    width: '70%',
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: 'lightblue',
