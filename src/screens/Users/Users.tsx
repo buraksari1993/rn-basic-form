@@ -27,8 +27,8 @@ export const Users: React.FC = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  const handleClick = () => {
-    navigation.navigate('Posts');
+  const handleClick = (item: any) => {
+    navigation.navigate('Rating', item);
   };
 
   if (loading) {
@@ -43,7 +43,10 @@ export const Users: React.FC = () => {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({item}) => {
           return (
-            <Pressable key={item.id} onPress={handleClick} style={styles.item}>
+            <Pressable
+              key={item.id}
+              onPress={() => handleClick(item)}
+              style={styles.item}>
               <Text style={styles.name}>{item.name}</Text>
               <Text>{item.phone}</Text>
               <Text>{item.email}</Text>

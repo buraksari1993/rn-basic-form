@@ -5,13 +5,14 @@ import {Login, Users} from './src/screens';
 import {Button} from 'react-native';
 import {Provider} from 'react-redux';
 import {store} from './src/store';
+import {Rating} from './src/screens/Rating/Rating';
 
 const Stack = createNativeStackNavigator();
 
 export type RootStackParamList = {
   Login: undefined;
   Users: undefined;
-  Posts: undefined;
+  Rating: undefined;
 };
 
 const App = () => {
@@ -41,6 +42,13 @@ const App = () => {
                   }
                 />
               ),
+            })}
+          />
+          <Stack.Screen
+            name="Rating"
+            component={Rating}
+            options={({route}: any) => ({
+              headerTitle: route.params.name,
             })}
           />
         </Stack.Navigator>
